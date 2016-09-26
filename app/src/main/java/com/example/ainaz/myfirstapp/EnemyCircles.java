@@ -1,5 +1,7 @@
 package com.example.ainaz.myfirstapp;
 
+import android.graphics.Color;
+
 import java.util.Random;
 
 /**
@@ -9,6 +11,8 @@ public class EnemyCircles extends SimpleCircle{
 
     public static final int TO_RADIUS = 510;
     public static final int FROM_RADIUS = 110;
+    public static final int ENEMY_COLOR = Color.RED;
+    public static final int FOOD_COLOR = Color.GREEN;
 
     public EnemyCircles(int x, int y, int radius) {
         super(x, y, radius);
@@ -21,5 +25,22 @@ public class EnemyCircles extends SimpleCircle{
         int radius = FROM_RADIUS - random.nextInt(TO_RADIUS - FROM_RADIUS);
         EnemyCircles enemyCircle = new EnemyCircles(x, y, radius);
         return enemyCircle;
+    }
+
+    public void setEnemyOrFoodColorDependsOn(MainCircle mainCircle) {
+        if(isSmallerThan(mainCircle)) {
+            setColor(FOOD_COLOR);
+        }
+        else {
+            setColor(ENEMY_COLOR);
+        }
+    }
+
+    private boolean isSmallerThan(SimpleCircle circle) {
+        if (radius < circle.radius){
+            return true;
+        }
+
+        return false;
     }
 }

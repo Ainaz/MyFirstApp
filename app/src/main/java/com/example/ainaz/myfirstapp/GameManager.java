@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Ainaz on 25.09.2016.
  */
 public class GameManager {
-    public static final int MAX_CIRCLES = 10;
+    public static final int MAX_CIRCLES = 30;
     private CanvasView canvasView;
     private ArrayList<EnemyCircles> circles;
     private static int width;
@@ -30,6 +30,13 @@ public class GameManager {
             EnemyCircles circle;
             circle = EnemyCircles.getRandomCircle();
             circles.add(circle);
+        }
+        calculateAndSetCirclesColor();
+    }
+
+    private void calculateAndSetCirclesColor() {
+        for (EnemyCircles circle  : circles) {
+            circle.setEnemyOrFoodColorDependsOn(mainCircle);
         }
     }
 
