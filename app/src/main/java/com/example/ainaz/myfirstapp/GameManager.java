@@ -3,11 +3,15 @@ package com.example.ainaz.myfirstapp;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import java.util.ArrayList;
+
 /**
  * Created by Ainaz on 25.09.2016.
  */
 public class GameManager {
+    public static final int MAX_CIRCLES = 10;
     private CanvasView canvasView;
+    private ArrayList<EnemyCircles> circles;
     private static int width;
     private static int height;
     private MainCircle mainCircle;
@@ -17,6 +21,16 @@ public class GameManager {
         width = w;
         height = h;
         initMainCircle();
+        initEnemyCircles();
+    }
+
+    private void initEnemyCircles() {
+        circles = new ArrayList<>();
+        for (int i = 0; i < MAX_CIRCLES; i++) {
+            EnemyCircles circle;
+            circle = EnemyCircles.getRandomCircle();
+            circles.add(circle);
+        }
     }
 
     public static int getWidth() {
@@ -33,6 +47,9 @@ public class GameManager {
 
     public void onDrow() {
         canvasView.drawCircle(mainCircle);
+        for (EnemyCircles circle : circles) {
+            canvasView.drawCircle(circle);
+        }
     }
 
     public void onTouchEvent(int x, int y) {
