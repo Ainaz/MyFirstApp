@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Ainaz on 25.09.2016.
  */
 public class GameManager {
-    public static final int MAX_CIRCLES = 50;
+    public static final int MAX_CIRCLES = 10;
     private CanvasView canvasView;
     private ArrayList<EnemyCircles> circles;
     private static int width;
@@ -64,5 +64,44 @@ public class GameManager {
 
     public void onTouchEvent(int x, int y) {
         mainCircle.moveMainCircleWhenTouchAt(x, y);
+        checkCollision();
+        moveCircles();
+    }
+
+    private void checkCollision() {
+        SimpleCircle circleForDel = null;
+        for (EnemyCircles circle  : circles) {
+            if(mainCircle.isInterset(circle)){
+                if(circle.isSmallerThan(mainCircle)){
+                    mainCircle.growRadius(circle);
+                    circleForDel = circle;
+                    calculateAndSetCirclesColor();
+                    break;
+                }else {
+                    gameEnd("YOU LOST!");
+                    return;
+                }
+            }
+        }
+        if(circleForDel != null){
+            circles.remove(circleForDel);
+        }
+        if(circles.isEmpty()){
+            gameEnd("YOU WIN!");
+        }
+    }
+
+    private void gameEnd(String text) {
+        canvasView.showMessage(text);
+        mainCircle.initRadius();
+        initEnemyCircles();
+        canvasView.redraw();
+    }
+
+    private void moveCircles() {
+        for (EnemyCircles circle : circles) {
+            circle.moveOneStep();
+        }
+
     }
 }
